@@ -1,0 +1,19 @@
+createdb an_uat
+psql
+CREATE ROLE rdsadmin;
+CREATE ROLE novobi_master;
+\q
+psql -d an_prod -1 -f /home/vagrant/artnaturals_prod.sql
+pg_restore -d DB_NAME -v -h HOST -p PORT -U USER DUMP_FILE.dump**
+
+psql
+
+ALTER DATABASE an_uat OWNER TO odoo;
+GRANT ALL PRIVILEGES ON DATABASE an_uat TO odoo;
+
+unzip /opt/odoo/andb.zip
+cp -r /home/vagrant/filestore/* /home/vagrant/.local/share/Odoo/filestore/an_uat/
+
+chown -R odoo.odoo /home/vagrant/.local/share/Odoo/filestore/an_uat/
+
+chmod 775 -R /home/vagrant/.local/share/Odoo/filestore/an_uat/
